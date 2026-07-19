@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Que Tipo de Quean É Você?</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@400;500;600&display=swap');
+
+:root{
+  --ink:#000000;
+  --panel:#141414;
+  --wine:#D6203F;
+  --gold:#FF8FC7;
+  --lilac:#B8B8B8;
+  --cream:#FFFFFF;
+  --line: rgba(255,255,255,0.14);
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--ink);
+  color:var(--cream);
+  font-family:'Montserrat',sans-serif;
+  padding:48px 20px 80px;
+}
+
+.wrap{max-width:760px;margin:0 auto;}
+
+h1{
+  font-family:'Playfair Display',serif;
+  font-weight:700;
+  font-size:clamp(32px,5vw,48px);
+  margin:0 0 6px;
+  letter-spacing:-0.01em;
+}
+.subtitle{
+  color:var(--lilac);
+  font-size:15px;
+  margin:0 0 14px;
+  max-width:560px;
+  line-height:1.6;
+}
+.subtitle:last-of-type{margin-bottom:40px;}
+
+.axis-block{
+  padding:36px 0;
+}
+.axis-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-bottom:4px;
+}
+.axis-title{
+  font-family:'Libre Baskerville',serif;
+  font-size:22px;
+  font-weight:700;
+}
+
+.question{
+  margin-top:34px;
+}
+.question p{
+  font-size:15px;
+  line-height:1.55;
+  margin:0 0 18px;
+  color:var(--cream);
+  text-align:justify;
+}
+
+/* ---------- Slider (estilo igual à barra de resultado) ---------- */
+.pretty-slider{
+  position:relative;
+  padding:6px 0 34px;
+  touch-action:none;
+}
+.pretty-slider .track{
+  position:relative;
+  height:8px;
+  border-radius:4px;
+  background:linear-gradient(90deg, var(--gold), var(--wine));
+}
+.pretty-slider .step-dot{
+  position:absolute;
+  top:50%;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:rgba(0,0,0,0.35);
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+}
+.pretty-slider .end-label{
+  position:absolute;
+  top:20px;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--lilac);
+  white-space:nowrap;
+}
+.pretty-slider .end-label.neg{left:0;}
+.pretty-slider .end-label.pos{right:0;}
+.pretty-slider .neutral-label{
+  position:absolute;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--lilac);
+  white-space:nowrap;
+}
+
+.bow-thumb{
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:18px;
+  height:18px;
+  margin-left:-9px;
+  margin-top:-9px;
+  background:var(--cream);
+  border-radius:50%;
+  border:2px solid var(--ink);
+  box-shadow:0 0 0 1px var(--line);
+  padding:0;
+  cursor:grab;
+  transition:left .18s ease, transform .1s ease;
+}
+.bow-thumb:active{cursor:grabbing; transform:scale(1.08);}
+
+.pretty-slider .end-label{
+  position:absolute;
+  top:24px;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--lilac);
+  white-space:nowrap;
+}
+.pretty-slider .end-label.neg{left:0;}
+.pretty-slider .end-label.pos{right:0;}
+
+.divider{
+  padding:10px 0;
+}
+
+.compass{
+  position:sticky;
+  top:20px;
+  margin-top:44px;
+  padding:28px 24px;
+  background:var(--panel);
+  border-radius:14px;
+  border:1px solid var(--line);
+}
+.compass-title{
+  font-family:'Libre Baskerville',serif;
+  font-size:19px;
+  margin:0 0 22px;
+}
+.gauge{margin-bottom:22px;}
+.gauge-labels{
+  display:flex;
+  justify-content:space-between;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  color:var(--lilac);
+  margin-bottom:6px;
+}
+.gauge-track{
+  position:relative;
+  height:8px;
+  background:linear-gradient(90deg, var(--gold), var(--wine));
+  border-radius:4px;
+}
+.gauge-marker{
+  position:absolute;
+  top:-5px;
+  width:18px;
+  height:18px;
+  background:var(--cream);
+  border-radius:50%;
+  border:2px solid var(--ink);
+  transform:translateX(-50%);
+  left:50%;
+  transition:left .3s ease;
+  box-shadow:0 0 0 1px var(--line);
+}
+.gauge-score{
+  text-align:right;
+  font-size:12px;
+  color:var(--lilac);
+  margin-top:4px;
+}
+
+.result{
+  margin-top:26px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+}
+.result-label{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:var(--lilac);
+  margin-bottom:8px;
+}
+.result-title{
+  font-family:'Playfair Display',serif;
+  font-weight:700;
+  font-size:24px;
+  color:var(--gold);
+  line-height:1.3;
+}
+
+footer{
+  margin-top:50px;
+  font-size:12px;
+  color:var(--lilac);
+  text-align:center;
+}
+
+.credit{
+  position:fixed;
+  right:10px;
+  bottom:8px;
+  font-size:9px;
+  color:var(--lilac);
+  opacity:0.5;
+  letter-spacing:0.02em;
+  pointer-events:none;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>QUE TIPO DE QUEAN É VOCÊ?</h1>
+  <p class="subtitle">A forma como cada cuckquean vive o fetiche pode ser um pouco diferente e pode também mudar com o tempo.</p>
+  <p class="subtitle">Criamos um teste simplificado que avalia três características gerais: como é a sua atitude ao lidar com o fetiche, qual é o foco do seu prazer e como lida com a humilhação erótica. A combinação desses elementos revela o seu perfil atual.</p>
+  <p class="subtitle">Faça o teste e descubra qual é o seu!</p>
+
+  <div class="divider" aria-hidden="true"></div>
+
+  <!-- EIXO 1 -->
+  <div class="axis-block" data-axis="1">
+    <div class="axis-header">
+      <div class="axis-title">Atitude</div>
+    </div>
+
+    <div class="question" data-weight="1" data-pole-neg="Submissa" data-pole-pos="Controladora">
+      <p>Se meu parceiro quiser sair com outras mulheres, sou eu quem tem que decidir quando, como, onde e com quem. Eu estabeleço as regras, de preferência eu mesma falo com a moça. Prefiro manter tudo sob meu controle.</p>
+      <div class="pretty-slider"></div>
+    </div>
+    <div class="question" data-weight="-1" data-pole-neg="Submissa" data-pole-pos="Controladora">
+      <p>Eu aceito que meu parceiro saia com outra mulher sozinho. Não preciso estar junto com ele.</p>
+      <div class="pretty-slider"></div>
+    </div>
+    <div class="question" data-weight="-1" data-pole-neg="Submissa" data-pole-pos="Controladora">
+      <p>Eu aceitaria tranquilamente ficar apenas observando meu parceiro transando com outra em vez de participar do sexo.</p>
+      <div class="pretty-slider"></div>
+    </div>
+    <div class="question" data-weight="-1" data-pole-neg="Submissa" data-pole-pos="Controladora">
+      <p>Eu confio plenamente no meu parceiro e não acho que me cabe determinar regras sobre o que ele pode ou não fazer com outras mulheres.</p>
+      <div class="pretty-slider"></div>
+    </div>
+  </div>
+
+  <div class="divider" aria-hidden="true"></div>
+
+  <!-- EIXO 2 -->
+  <div class="axis-block" data-axis="2">
+    <div class="axis-header">
+      <div class="axis-title">Foco</div>
+    </div>
+
+    <div class="question" data-weight="-1" data-pole-neg="Romântica" data-pole-pos="Sexual">
+      <p>Eu me sinto genuinamente feliz por ver o meu parceiro apaixonado por outra mulher e criando um vínculo profundo com ela.</p>
+      <div class="pretty-slider"></div>
+    </div>
+    <div class="question" data-weight="-1" data-pole-neg="Romântica" data-pole-pos="Sexual">
+      <p>Acho excitante ver meu parceiro trocando carícias com outra mulher, como beijos, carinho no rosto, abraços e troca de olhares.</p>
+      <div class="pretty-slider"></div>
+    </div>
+    <div class="question" data-weight="1" data-pole-neg="Romântica" data-pole-pos="Sexual">
+      <p>Sinto tesão puramente na parte sexual. Prefiro que não haja carinho envolvido — só o sexo em si, sem vínculo com a outra pessoa.</p>
+      <div class="pretty-slider"></div>
+    </div>
+    <div class="question" data-weight="-1" data-pole-neg="Romântica" data-pole-pos="Sexual">
+      <p>Gosto da ideia de ter um relacionamento sério a três. Eu aceitaria constituir família de um marido com duas esposas em vez de apenas ter uma fixa só para diversão.</p>
+      <div class="pretty-slider"></div>
+    </div>
+  </div>
+
+  <div class="divider" aria-hidden="true"></div>
+
+  <!-- EIXO 3 -->
+  <div class="axis-block" data-axis="3">
+    <div class="axis-header">
+      <div class="axis-title">Ego</div>
+    </div>
+
+    <div class="question" data-weight="1" data-pole-neg="Sem humilhação" data-pole-pos="Com humilhação">
+      <p>A ideia de ser provocada durante o ato me dá muito tesão.</p>
+      <div class="pretty-slider"></div>
+    </div>
+    <div class="question" data-weight="1" data-pole-neg="Sem humilhação" data-pole-pos="Com humilhação">
+      <p>Acho excitante quando ele me chama de "minha corna".</p>
+      <div class="pretty-slider"></div>
+    </div>
+    <div class="question" data-weight="1" data-pole-neg="Sem humilhação" data-pole-pos="Com humilhação">
+      <p>Fico louca só de pensar nele gozando em outra mulher e me mandando limpar com a língua.</p>
+      <div class="pretty-slider"></div>
+    </div>
+    <div class="question" data-weight="1" data-pole-neg="Sem humilhação" data-pole-pos="Com humilhação">
+      <p>Eu não me importaria se soubessem por aí que ele sai com outras. Não me sentiria mal, pelo contrário: eu acharia bem divertido ver as pessoas me julgando.</p>
+      <div class="pretty-slider"></div>
+    </div>
+  </div>
+
+  <div class="compass">
+    <div class="compass-title">Seu resultado</div>
+
+    <div class="gauge" data-axis-gauge="1">
+      <div class="gauge-labels"><span>Controladora</span><span>Submissa</span></div>
+      <div class="gauge-track"><div class="gauge-marker"></div></div>
+    </div>
+
+    <div class="gauge" data-axis-gauge="2">
+      <div class="gauge-labels"><span>Sexual</span><span>Romântica</span></div>
+      <div class="gauge-track"><div class="gauge-marker"></div></div>
+    </div>
+
+    <div class="gauge" data-axis-gauge="3">
+      <div class="gauge-labels"><span>Sem humilhação</span><span>Com humilhação</span></div>
+      <div class="gauge-track"><div class="gauge-marker"></div></div>
+    </div>
+
+    <div class="result">
+      <div class="result-label">Perfil combinado</div>
+      <div class="result-title" id="resultTitle">Responda as afirmações acima</div>
+    </div>
+  </div>
+
+  <footer></footer>
+</div>
+
+<div class="credit">site por jakehimura</div>
+
+<script>
+const MIN = -3, MAX = 3;
+
+function buildSlider(container){
+  const steps = MAX - MIN; // 6 intervals -> 7 stops
+  let dots = '';
+  for(let i=0;i<=steps;i++){
+    const t = i/steps;
+    dots += `<span class="step-dot" style="left:${t*100}%"></span>`;
+  }
+  container.innerHTML = `
+    <div class="track">
+      ${dots}
+      <button type="button" class="bow-thumb" aria-label="Arraste para responder"></button>
+    </div>
+    <span class="end-label neg">Discordo totalmente</span>
+    <span class="neutral-label">Neutro</span>
+    <span class="end-label pos">Concordo totalmente</span>
+  `;
+  container.dataset.value = '0';
+
+  const track = container.querySelector('.track');
+  const thumb = container.querySelector('.bow-thumb');
+
+  function setValue(value, animate){
+    value = Math.max(MIN, Math.min(MAX, value));
+    container.dataset.value = value;
+    const t = (value - MIN) / (MAX - MIN); // 0..1
+    thumb.style.transition = animate ? 'left .18s ease' : 'none';
+    thumb.style.left = (t * 100) + '%';
+    container.dispatchEvent(new Event('sliderchange', {bubbles:true}));
+  }
+
+  function valueFromClientX(clientX){
+    const rect = track.getBoundingClientRect();
+    let t = (clientX - rect.left) / rect.width;
+    t = Math.max(0, Math.min(1, t));
+    const raw = MIN + t * (MAX - MIN);
+    return Math.round(raw); // snap to integer step
+  }
+
+  let dragging = false;
+
+  function onPointerDown(e){
+    dragging = true;
+    thumb.setPointerCapture(e.pointerId);
+    setValue(valueFromClientX(e.clientX), false);
+  }
+  function onPointerMove(e){
+    if(!dragging) return;
+    setValue(valueFromClientX(e.clientX), false);
+  }
+  function onPointerUp(e){
+    dragging = false;
+  }
+
+  thumb.addEventListener('pointerdown', onPointerDown);
+  thumb.addEventListener('pointermove', onPointerMove);
+  thumb.addEventListener('pointerup', onPointerUp);
+
+  track.addEventListener('pointerdown', (e)=>{
+    if(e.target === thumb) return;
+    setValue(valueFromClientX(e.clientX), true);
+  });
+
+  thumb.addEventListener('keydown', (e)=>{
+    const current = parseInt(container.dataset.value, 10);
+    if(e.key === 'ArrowLeft'){ setValue(current - 1, true); e.preventDefault(); }
+    if(e.key === 'ArrowRight'){ setValue(current + 1, true); e.preventDefault(); }
+  });
+  thumb.tabIndex = 0;
+
+  setValue(0, false);
+}
+
+document.querySelectorAll('.pretty-slider').forEach(buildSlider);
+
+const POLE_NAMES = {
+  1: {pos:'Controladora', neg:'Submissa'},
+  2: {pos:'Sexual', neg:'Romântica'},
+  3: {pos:'Com humilhação', neg:'Sem humilhação'}
+};
+
+function clamp(v,min,max){return Math.max(min,Math.min(max,v));}
+
+function computeScores(){
+  const scores = {1:0,2:0,3:0};
+  document.querySelectorAll('.axis-block').forEach(block=>{
+    const axis = block.dataset.axis;
+    const questions = block.querySelectorAll('.question');
+    let sum = 0;
+    questions.forEach(q=>{
+      const weight = parseInt(q.dataset.weight,10);
+      const slider = q.querySelector('.pretty-slider');
+      const val = slider ? parseInt(slider.dataset.value,10) : 0;
+      sum += val * weight;
+    });
+    const avg = sum / questions.length;       // -3 .. +3
+    const scaled = Math.round(avg * (5/3));   // -5 .. +5
+    scores[axis] = clamp(scaled, -5, 5);
+  });
+  return scores;
+}
+
+function updateUI(){
+  const scores = computeScores();
+
+  Object.keys(scores).forEach(axis=>{
+    const score = scores[axis];
+    const gauge = document.querySelector(`[data-axis-gauge="${axis}"]`);
+    const marker = gauge.querySelector('.gauge-marker');
+    const pct = (axis === '3')
+      ? ((score + 5) / 10) * 100
+      : 100 - (((score + 5) / 10) * 100);
+    marker.style.left = pct + '%';
+  });
+
+  const parts = [];
+  Object.keys(scores).forEach(axis=>{
+    const s = scores[axis];
+    if (s === 0){
+      parts.push('Neutro em ' + (axis==1?'Atitude':axis==2?'Foco':'Ego'));
+    } else {
+      parts.push(s > 0 ? POLE_NAMES[axis].pos : POLE_NAMES[axis].neg);
+    }
+  });
+
+  document.getElementById('resultTitle').textContent = parts.join(' + ');
+}
+
+document.addEventListener('sliderchange', updateUI);
+updateUI();
+</script>
+</body>
+</html>
