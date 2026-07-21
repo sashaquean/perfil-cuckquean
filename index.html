@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Que Tipo de Quean É Você?</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@400;500;600&display=swap');
 
 :root{
   --ink:#000000;
   --panel:#141414;
-  --wine:#D6203F;
+  --wine:#B80000;
   --gold:#FF8FC7;
   --lilac:#B8B8B8;
   --cream:#FFFFFF;
@@ -23,42 +23,36 @@ body{
   background:var(--ink);
   color:var(--cream);
   font-family:'Montserrat',sans-serif;
-  padding:48px 20px 80px;
+  padding:48px 20px 100px;
 }
 
 .wrap{max-width:760px;margin:0 auto;}
 
 h1{
   font-family:'Playfair Display',serif;
-  font-weight:700;
+  font-weight:400;
   font-size:clamp(32px,5vw,48px);
-  margin:0 0 6px;
+  margin:0 0 30px;
   letter-spacing:-0.01em;
   text-align:center;
 }
 h1 em{font-style:italic;}
 
 .logo-placeholder{
-  width:64px;
-  height:64px;
-  margin:0 auto 18px;
-  border-radius:50%;
-  border:1.5px solid var(--gold);
+  width:88px;
+  height:88px;
+  margin:0 auto 22px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-family:'Playfair Display',serif;
-  font-weight:700;
-  font-size:20px;
-  color:var(--gold);
-  letter-spacing:0.02em;
 }
+.logo-placeholder svg{width:100%; height:100%; fill:var(--gold);}
 .subtitle{
   color:var(--lilac);
   font-size:15px;
   margin:0 0 14px;
-  max-width:560px;
   line-height:1.6;
+  text-align:left;
 }
 .subtitle:last-of-type{margin-bottom:0;}
 
@@ -83,11 +77,11 @@ h1 em{font-style:italic;}
 .instructions-box strong{color:var(--gold);}
 
 .btn-primary{
-  margin-top:30px;
-  display:inline-block;
+  margin:30px auto 0;
+  display:block;
   padding:14px 32px;
-  background:var(--gold);
-  color:var(--ink);
+  background:var(--wine);
+  color:var(--cream);
   border:none;
   border-radius:8px;
   font-family:'Montserrat',sans-serif;
@@ -234,8 +228,8 @@ h1 em{font-style:italic;}
   color:var(--cream);
 }
 .btn-nav.next{
-  background:var(--gold);
-  color:var(--ink);
+  background:var(--wine);
+  color:var(--cream);
   border:none;
 }
 .btn-nav.prev{visibility:hidden;}
@@ -305,7 +299,7 @@ h1 em{font-style:italic;}
 #radarSvg .grid-ring{fill:none; stroke:rgba(255,255,255,0.14); stroke-dasharray:2 3;}
 #radarSvg .grid-axis{stroke:rgba(255,255,255,0.14);}
 #radarSvg .data-shape{
-  fill:rgba(214,32,63,0.35);
+  fill:rgba(184,0,0,0.35);
   stroke:var(--gold);
   stroke-width:2;
 }
@@ -376,12 +370,20 @@ h1 em{font-style:italic;}
 }
 
 footer{
-  margin-top:50px;
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:20;
+  background:var(--ink);
+  border-top:1px solid var(--line);
+  padding:14px 20px;
+  margin:0;
   font-size:12px;
-  color:var(--gold);
+  color:var(--lilac);
   text-align:center;
+  letter-spacing:0.08em;
   text-transform:uppercase;
-  letter-spacing:0.15em;
 }
 </style>
 </head>
@@ -390,7 +392,56 @@ footer{
 
   <!-- ============ TELA 1: INTRODUÇÃO ============ -->
   <section class="screen active" id="screen-intro">
-    <div class="logo-placeholder" aria-hidden="true">SQ</div>
+    <div class="logo-placeholder" aria-hidden="true">
+      <svg viewBox="0 0 362.364881 275.352104" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(-44.000000,339.000000) scale(0.100000,-0.100000)">
+          <path d="M1325 3373 c43 -101 55 -152 55 -243 0 -103 -19 -179 -62 -260 -57
+-104 -100 -182 -125 -227 -30 -51 -79 -151 -109 -218 -10 -22 -19 -42 -20 -43
+-4 -5 -66 39 -91 65 -27 28 -77 101 -86 127 -7 18 23 86 66 149 35 51 12 50
+-42 -2 -29 -28 -56 -49 -61 -46 -14 9 -21 146 -11 205 14 77 31 152 41 175 4
+11 23 52 41 90 46 99 49 105 43 105 -9 0 -124 -113 -124 -122 0 -4 -13 -27
+-30 -50 -16 -22 -30 -46 -30 -52 0 -6 -7 -24 -15 -40 -39 -74 -48 -219 -22
+-355 l16 -83 -41 -82 c-58 -115 -56 -110 -63 -152 -18 -112 -21 -114 -49 -51
+-10 23 -25 55 -32 71 -43 91 -58 179 -59 343 0 155 -6 189 -20 120 -4 -17 -11
+-36 -15 -42 -15 -19 -40 -182 -40 -261 0 -103 49 -334 71 -334 4 0 10 -13 14
+-30 4 -17 10 -30 14 -30 3 0 12 -12 19 -27 52 -116 239 -303 419 -419 54 -34
+101 -67 105 -71 4 -4 34 -39 66 -78 103 -123 225 -219 396 -312 55 -30 124
+-70 152 -89 67 -45 194 -181 194 -209 0 -5 8 -23 17 -40 12 -22 17 -55 17
+-118 0 -48 3 -87 7 -87 19 0 141 150 171 209 29 58 33 75 33 146 0 79 -1 83
+-49 165 -66 115 -108 177 -150 225 -38 42 -71 104 -104 196 -44 121 -110 226
+-190 302 -84 79 -182 121 -128 55 49 -61 83 -113 91 -138 4 -14 11 -27 16 -30
+14 -9 28 -133 20 -180 -4 -25 -17 -61 -28 -80 -19 -34 -22 -35 -75 -34 -123 2
+-224 94 -301 274 -38 88 -61 247 -48 331 13 85 30 160 40 179 5 9 12 31 16 49
+4 18 16 54 27 80 10 25 24 57 30 71 5 14 16 39 23 55 8 17 23 53 35 80 12 28
+27 64 34 80 61 140 81 231 81 370 0 120 -2 134 -26 182 -15 28 -46 74 -69 102
+-43 51 -69 67 -55 34z m-441 -1062 c27 -42 64 -95 83 -118 32 -39 34 -45 24
+-74 -6 -18 -11 -90 -11 -161 l0 -129 -37 28 c-21 15 -68 57 -105 93 l-68 67 1
+104 c0 104 7 161 30 254 10 44 13 48 23 31 6 -10 33 -53 60 -95z"/>
+          <path d="M3131 3343 c-23 -27 -53 -73 -68 -103 -26 -52 -28 -63 -28 -185 0
+-127 7 -167 47 -280 11 -31 82 -204 98 -240 5 -11 18 -42 30 -70 11 -27 24
+-57 29 -65 5 -9 12 -31 16 -50 4 -19 11 -41 16 -50 17 -34 38 -120 48 -198 23
+-183 -37 -388 -150 -515 -59 -67 -126 -101 -198 -102 -54 0 -54 0 -79 45 -22
+38 -26 57 -25 125 0 73 4 88 37 155 21 41 51 90 67 110 54 65 53 61 22 54 -44
+-10 -63 -23 -121 -78 -86 -81 -155 -195 -211 -349 -24 -65 -58 -122 -113 -185
+-41 -49 -137 -205 -162 -266 -45 -109 4 -254 133 -388 l68 -72 -1 91 c-1 49 4
+101 10 114 29 62 36 76 49 100 12 21 114 122 156 154 19 15 124 76 179 104
+131 69 277 185 380 303 55 63 102 105 172 151 119 79 176 125 253 203 139 141
+226 290 267 459 24 101 9 399 -22 440 -4 6 -11 25 -15 43 -3 17 -11 32 -17 32
+-7 0 -8 -11 -2 -32 20 -77 2 -292 -32 -388 -24 -67 -67 -167 -82 -190 -7 -10
+-22 26 -22 53 0 38 -44 159 -81 225 l-31 55 18 71 c27 110 23 234 -11 331 -24
+72 -50 124 -80 164 -31 41 -114 125 -119 120 -4 -3 7 -32 24 -65 16 -32 30
+-66 30 -74 0 -9 4 -20 9 -25 17 -20 43 -121 50 -199 8 -82 2 -201 -11 -201 -3
+0 -26 18 -50 41 -23 22 -51 43 -61 47 -16 6 -16 5 -2 -21 20 -36 39 -66 45
+-72 3 -3 14 -22 24 -43 20 -38 20 -39 0 -75 -10 -20 -29 -48 -41 -62 -13 -14
+-23 -28 -23 -32 0 -9 -90 -78 -101 -78 -5 0 -9 4 -9 10 0 19 -153 322 -179
+354 -21 27 -111 214 -111 232 0 11 -5 25 -11 31 -15 15 -16 227 -2 245 6 7 13
+30 17 50 4 20 10 38 15 40 13 5 24 48 12 48 -5 0 -28 -21 -50 -47z m601 -1088
+c5 -38 8 -109 6 -157 l-3 -87 -60 -61 c-33 -34 -79 -74 -102 -90 l-43 -29 0
+139 c0 82 -4 141 -10 145 -13 8 -13 32 0 48 54 65 140 190 140 205 0 4 8 18
+17 32 l17 24 14 -49 c8 -28 18 -81 24 -120z"/>
+        </g>
+      </svg>
+    </div>
     <h1>QUE TIPO DE <em>QUEAN</em> É VOCÊ?</h1>
     <p class="subtitle">A forma como cada cuckquean vive o fetiche pode ser um pouco diferente e pode também mudar com o tempo.</p>
     <p class="subtitle">Criamos um teste simplificado que avalia três características gerais: como é a sua atitude ao lidar com o fetiche, qual é o foco do seu prazer e como lida com a humilhação erótica. A combinação desses elementos revela o seu perfil atual.</p>
@@ -709,6 +760,7 @@ function renderQuestions(){
    ========================================================================= */
 
 let currentIndex = 0;
+let testStarted = false; // controla se o teste já foi iniciado ao menos uma vez
 
 function showQuestion(idx){
   flatQuestions.forEach((fq, i)=>{
@@ -721,7 +773,8 @@ function showQuestion(idx){
 
   const prevBtn = document.getElementById('btnPrev');
   const nextBtn = document.getElementById('btnNext');
-  prevBtn.classList.toggle('visible', idx > 0);
+  prevBtn.classList.add('visible');
+  prevBtn.textContent = (idx === 0) ? 'Voltar' : 'Anterior';
   nextBtn.textContent = (idx === total - 1) ? 'Ver Resultado' : 'Próxima';
 }
 
@@ -736,7 +789,11 @@ document.getElementById('btnNext').addEventListener('click', ()=>{
 });
 
 document.getElementById('btnPrev').addEventListener('click', ()=>{
-  if(currentIndex > 0){
+  if(currentIndex === 0){
+    // na primeira pergunta, "Voltar" leva de volta às instruções, sem perder o progresso
+    document.getElementById('screen-test').classList.remove('active');
+    document.getElementById('screen-intro').classList.add('active');
+  } else {
     currentIndex--;
     showQuestion(currentIndex);
   }
@@ -745,13 +802,18 @@ document.getElementById('btnPrev').addEventListener('click', ()=>{
 document.getElementById('btnStart').addEventListener('click', ()=>{
   document.getElementById('screen-intro').classList.remove('active');
   document.getElementById('screen-test').classList.add('active');
-  currentIndex = 0;
-  showQuestion(0);
+  if(!testStarted){
+    currentIndex = 0;
+    testStarted = true;
+  }
+  showQuestion(currentIndex);
 });
 
 document.getElementById('btnRestart').addEventListener('click', ()=>{
   document.getElementById('screen-result').classList.remove('active');
   document.getElementById('screen-intro').classList.add('active');
+  currentIndex = 0;
+  testStarted = false;
   renderQuestions();
 });
 
