@@ -482,8 +482,6 @@ c5 -38 8 -109 6 -157 l-3 -87 -60 -61 c-33 -34 -79 -74 -102 -90 l-43 -29 0
       <div class="result-combo" id="resultCombo"></div>
     </div>
 
-    <p class="result-desc" id="resultDesc">—</p>
-
     <div class="radar-panel">
       <div class="radar-panel-title">Mapa do Perfil</div>
       <svg id="radarSvg" viewBox="-30 0 375 300" xmlns="http://www.w3.org/2000/svg"></svg>
@@ -493,6 +491,8 @@ c5 -38 8 -109 6 -157 l-3 -87 -60 -61 c-33 -34 -79 -74 -102 -90 l-43 -29 0
       <div class="gauges-panel-title">Intensidade por Eixo</div>
       <div id="gaugesContainer"><!-- preenchido via JS --></div>
     </div>
+
+    <p class="result-desc" id="resultDesc">—</p>
 
     <button class="btn-secondary" id="btnRestart">Refazer o teste</button>
   </section>
@@ -603,50 +603,41 @@ function slug(s){
   return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,'');
 }
 
-/* Enquanto "pending" for true, a tela de resultado ignora apelido/descricao
-   e mostra o fallback "Seu Perfil" + combinação. Assim que você escrever
-   o apelido e a descrição de uma combinação, apague a linha "pending: true,"
-   (ou troque para false) daquele bloco específico. */
+/* Os 8 perfis já têm apelido e descrição definitivos (revisados com a Sasha).
+   Caso algum precise ser reescrito no futuro, edite o texto direto abaixo —
+   não é necessário mexer em mais nada no código. */
 const PROFILES = {
-  'Controladora-Sexual-SemHumilhacao': {
-    apelido: '[Apelido pendente]',
-    descricao: '[Descrição pendente — combinação Controladora + Sexual + Sem humilhação]',
-    pending: true
+  'Controladora-Sexual-Semhumilhacao': {
+    apelido: 'A Quean Liberal',
+    descricao: 'Você fica excitada com a ideia do seu parceiro estar na cama com outra mulher. A parte sexual é o foco do seu prazer. Mas você não gosta de se sentir por baixo da situação, ou de ser humilhada — pelo contrário. Você também gosta de estar no comando, preferindo ser quem fala diretamente com a outra mulher e decide como, quando e onde tudo acontece. Vale uma reflexão: esse controle vem do prazer genuíno em conduzir a situação, ou de uma dificuldade em confiar que ela funcionaria sem sua supervisão direta?'
   },
-  'Controladora-Sexual-ComHumilhacao': {
-    apelido: '[Apelido pendente]',
-    descricao: '[Descrição pendente — combinação Controladora + Sexual + Com humilhação]',
-    pending: true
+  'Controladora-Sexual-Comhumilhacao': {
+    apelido: 'A Quean Kinky',
+    descricao: 'Você fica excitada com a ideia do seu parceiro estar na cama com outra mulher. Mas não é só a parte sexual que te atrai: você também gosta de receber provocações e viver cenas de humilhação erótica — sempre dentro do consentimento, sem que isso tenha qualquer relação com desrespeito. Ao mesmo tempo, você quer estar no comando — é você quem estabelece as regras do encontro, e ninguém fala com a outra mulher a não ser você. Vale se perguntar: esse controle sobre a própria experiência nasce da confiança em saber exatamente o que você quer sentir, ou de uma dificuldade em se entregar sem comandar cada detalhe?'
   },
-  'Controladora-Romântica-SemHumilhacao': {
-    apelido: '[Apelido pendente]',
-    descricao: '[Descrição pendente — combinação Controladora + Romântica + Sem humilhação]',
-    pending: true
+  'Controladora-Romantica-Semhumilhacao': {
+    apelido: 'A Quean Zelosa',
+    descricao: 'Você fica emocionada ao imaginar seu parceiro se envolvendo de verdade com outra mulher, criando um vínculo real com ela. O afeto entre eles é o foco do seu prazer. Mas você não gosta de se sentir por baixo da situação, ou de ser humilhada — pelo contrário. Ainda assim, gosta de acompanhar tudo de perto: quer saber com quem ele está, ser a única com quem essas conversas passam, e manter as rédeas de como tudo se desenrola. Vale uma reflexão: esse acompanhamento de perto vem do desejo genuíno de fazer parte ativa dessa conexão, ou de um receio de que algo aconteça fora do seu alcance?'
   },
-  'Controladora-Romântica-ComHumilhacao': {
-    apelido: '[Apelido pendente]',
-    descricao: '[Descrição pendente — combinação Controladora + Romântica + Com humilhação]',
-    pending: true
+  'Controladora-Romantica-Comhumilhacao': {
+    apelido: 'A Quean Intensa',
+    descricao: 'Você fica emocionada ao imaginar seu parceiro se envolvendo de verdade com outra mulher. Mas não é só o afeto entre eles que te atrai: você também gosta de receber provocações e viver cenas de humilhação erótica — sempre dentro do consentimento, sem que isso tenha qualquer relação com desrespeito. Além disso, você gosta de manter o comando: estabelece os termos do encontro e guarda a palavra final sobre como tudo acontece. Vale refletir sobre essa parte específica: o controle está ali porque comandar a cena é, em si, uma fonte de prazer para você — ou porque, sem ele, a intensidade emocional do resto te deixaria insegura?'
   },
-  'Submissa-Sexual-SemHumilhacao': {
-    apelido: '[Apelido pendente]',
-    descricao: '[Descrição pendente — combinação Submissa + Sexual + Sem humilhação]',
-    pending: true
+  'Submissa-Sexual-Semhumilhacao': {
+    apelido: 'A Quean Clássica',
+    descricao: 'Você fica excitada com a ideia do seu parceiro estar na cama com outra mulher. A parte sexual é o foco do seu prazer. Mas você não gosta de se sentir por baixo da situação, ou de ser humilhada — pelo contrário. E você também não sente necessidade de dirigir o encontro — aceita bem que ele saia sozinho e decida os detalhes, confiando que tudo vai bem sem precisar da sua aprovação a cada passo.'
   },
-  'Submissa-Sexual-ComHumilhacao': {
-    apelido: '[Apelido pendente]',
-    descricao: '[Descrição pendente — combinação Submissa + Sexual + Com humilhação]',
-    pending: true
+  'Submissa-Sexual-Comhumilhacao': {
+    apelido: 'A Quean Raiz',
+    descricao: 'Você fica excitada com a ideia do seu parceiro estar na cama com outra mulher. Mas não é só a parte sexual que te atrai: você também gosta de receber provocações e viver cenas de humilhação erótica — ouvir "minha corna", sentir esse tom de perto — sempre dentro do consentimento, sem que isso tenha qualquer relação com desrespeito. Você entrega a condução do encontro a ele, sem necessidade de estar no comando — é a combinação mais direta e instintiva do fetiche, sem meio-termo.'
   },
-  'Submissa-Romântica-SemHumilhacao': {
-    apelido: '[Apelido pendente]',
-    descricao: '[Descrição pendente — combinação Submissa + Romântica + Sem humilhação]',
-    pending: true
+  'Submissa-Romantica-Semhumilhacao': {
+    apelido: 'A Quean Compersiva',
+    descricao: 'Você fica emocionada ao imaginar seu parceiro se envolvendo de verdade com outra mulher, sentindo uma alegria genuína nesse vínculo. O afeto entre eles é o foco do seu prazer. Mas você não gosta de se sentir por baixo da situação, ou de ser humilhada — pelo contrário. E você também não sente necessidade de dirigir a situação, entregando a condução do encontro a ele com tranquilidade.'
   },
-  'Submissa-Romântica-ComHumilhacao': {
-    apelido: '[Apelido pendente]',
-    descricao: '[Descrição pendente — combinação Submissa + Romântica + Com humilhação]',
-    pending: true
+  'Submissa-Romantica-Comhumilhacao': {
+    apelido: 'A Quean Devota',
+    descricao: 'Você fica emocionada ao imaginar seu parceiro se envolvendo de verdade com outra mulher. Mas não é só o afeto entre eles que te atrai: você também gosta de receber provocações e viver cenas de humilhação erótica — sempre dentro do consentimento, sem que isso tenha qualquer relação com desrespeito. Sua entrega também é ampla no comando da situação: você não sente necessidade de dirigir o encontro, confiando inteiramente na condução dele. É uma combinação em que várias camadas do fetiche se reforçam ao mesmo tempo.'
   }
 };
 
