@@ -504,8 +504,6 @@ c5 -38 8 -109 6 -157 l-3 -87 -60 -61 c-33 -34 -79 -74 -102 -90 l-43 -29 0
    Cada pergunta tem direction: 'left' (soma direto) ou 'right' (soma invertido: 3 - valor).
    Isso garante que a soma final das 5 perguntas sempre aponte pro polo ESQUERDO
    do eixo, de 0 (nada) a 15 (totalmente) — sem cancelamento entre perguntas.
-
-   ITENS MARCADOS COM placeholder:true AINDA PRECISAM DO TEXTO FINAL DA SASHA.
    ========================================================================= */
 
 const AXES = [
@@ -515,17 +513,7 @@ const AXES = [
     rightPole: 'Submissa',
     questions: [
       {
-        text: 'Se meu parceiro quiser sair com outras mulheres, sou eu quem tem que decidir quando, como, onde e com quem. Eu estabeleço as regras, de preferência eu mesma falo com a moça. Prefiro manter tudo sob meu controle.',
-        direction: 'left'
-      },
-      {
         text: 'Eu aceito que meu parceiro saia com outra mulher sozinho. Não preciso estar junto com ele.',
-        direction: 'right'
-      },
-      {
-        // REVISAR: esta é a versão reescrita (mais suave). Existe uma variante mais direta
-        // ("Eu aceito não ter nenhum controle sobre a cena...") que ainda não foi escolhida.
-        text: 'Eu me sinto tranquila em não ter nenhuma palavra sobre o que acontece entre eles — nem para participar, nem para dirigir a cena. Aceito ser colocada de lado durante o ato.',
         direction: 'right'
       },
       {
@@ -533,9 +521,16 @@ const AXES = [
         direction: 'right'
       },
       {
-        text: '[PERGUNTA 5 — ATITUDE: texto ainda não escrito. Deve apontar para o mesmo lado da pergunta 1, medindo o quanto você gosta de controlar a situação.]',
-        direction: 'left',
-        placeholder: true
+        text: 'Eu me sinto tranquila em não interferir no que acontece entre eles durante o ato. Aceito ser colocada de lado.',
+        direction: 'right'
+      },
+      {
+        text: 'Se alguma mulher quiser sair com ele, ou se ele quiser sair com alguma mulher, ela tem que falar comigo — nunca com ele. Somente eu posso falar com outras mulheres.',
+        direction: 'left'
+      },
+      {
+        text: 'Sou eu quem estabelece as regras de como, quando e onde o encontro vai acontecer.',
+        direction: 'left'
       }
     ]
   },
@@ -545,25 +540,24 @@ const AXES = [
     rightPole: 'Romântica',
     questions: [
       {
-        text: 'Eu me sinto genuinamente feliz por ver o meu parceiro apaixonado por outra mulher e criando um vínculo profundo com ela.',
-        direction: 'right'
-      },
-      {
-        text: 'Acho excitante ver meu parceiro trocando carícias com outra mulher, como beijos, carinho no rosto, abraços e troca de olhares.',
-        direction: 'right'
-      },
-      {
         text: 'Sinto tesão puramente na parte sexual. Prefiro que não haja carinho envolvido — só o sexo em si, sem vínculo com a outra pessoa.',
         direction: 'left'
       },
       {
-        text: 'Gosto da ideia de ter um relacionamento sério a três. Eu aceitaria constituir família de um marido com duas esposas em vez de apenas ter uma fixa só para diversão.',
+        text: 'Fico incomodada, ou até perco o tesão, se sinto que existe carinho ou conexão emocional real entre eles — prefiro que fique restrito ao físico.',
+        direction: 'left'
+      },
+      {
+        text: 'Se ele começasse a repetir sempre a mesma mulher e criar intimidade com ela, isso me incomodaria — prefiro que sejam encontros pontuais, sem continuidade.',
+        direction: 'left'
+      },
+      {
+        text: 'Eu me sinto genuinamente feliz por ver o meu parceiro apaixonado por outra mulher e criando um vínculo profundo com ela.',
         direction: 'right'
       },
       {
-        text: '[PERGUNTA 5 — FOCO: texto ainda não escrito. Deve apontar para o mesmo lado da pergunta 3, medindo o quanto o prazer é puramente físico, sem vínculo afetivo.]',
-        direction: 'left',
-        placeholder: true
+        text: 'Gosto da ideia de ter um relacionamento sério a três. Eu aceitaria constituir família de um marido com duas esposas em vez de apenas ter uma fixa só para diversão.',
+        direction: 'right'
       }
     ]
   },
@@ -585,13 +579,12 @@ const AXES = [
         direction: 'right'
       },
       {
-        text: 'Eu não me importaria se soubessem por aí que ele sai com outras. Não me sentiria mal, pelo contrário: eu acharia bem divertido ver as pessoas me julgando.',
-        direction: 'right'
+        text: 'O que me excita é só o fato de ele estar com outra mulher, e não a provocação, os apelidos ou os comentários humilhantes.',
+        direction: 'left'
       },
       {
-        text: '[PERGUNTA 5 — EGO: texto ainda não escrito. Deve apontar para o mesmo lado das demais, medindo o quanto a humilhação erótica intensifica o prazer.]',
-        direction: 'right',
-        placeholder: true
+        text: 'Se ela tentasse me humilhar dizendo que é mais gostosa do que eu, ou fizesse algum tipo de comparação assim, acabaria completamente o clima pra mim.',
+        direction: 'left'
       }
     ]
   }
