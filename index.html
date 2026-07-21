@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Que Tipo de Quean É Você?</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@400;500;600&display=swap');
 
 :root{
   --ink:#000000;
   --panel:#141414;
-  --wine:#D6203F;
+  --wine:#B80000;
   --gold:#FF8FC7;
   --lilac:#B8B8B8;
   --cream:#FFFFFF;
@@ -23,59 +23,128 @@ body{
   background:var(--ink);
   color:var(--cream);
   font-family:'Montserrat',sans-serif;
-  padding:48px 20px 80px;
+  padding:48px 20px 100px;
 }
 
 .wrap{max-width:760px;margin:0 auto;}
 
 h1{
   font-family:'Playfair Display',serif;
-  font-weight:700;
+  font-weight:400;
   font-size:clamp(32px,5vw,48px);
-  margin:0 0 6px;
+  margin:0 0 30px;
   letter-spacing:-0.01em;
+  text-align:center;
 }
+h1 em{font-style:italic;}
+.title-break{display:none;}
+@media (max-width:480px){
+  .title-break{display:block;}
+}
+
+.logo-placeholder{
+  width:88px;
+  height:88px;
+  margin:0 auto 22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.logo-placeholder svg{width:100%; height:100%; fill:var(--gold);}
 .subtitle{
   color:var(--lilac);
   font-size:15px;
   margin:0 0 14px;
-  max-width:560px;
   line-height:1.6;
+  text-align:left;
 }
-.subtitle:last-of-type{margin-bottom:40px;}
+.subtitle:last-of-type{margin-bottom:0;}
 
-.axis-block{
-  padding:36px 0;
+/* ---------- Telas (intro / teste / resultado) ---------- */
+.screen{display:none;}
+.screen.active{display:block;}
+
+.instructions-box{
+  margin-top:28px;
+  padding:20px 22px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:12px;
 }
-.axis-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:baseline;
-  flex-wrap:wrap;
-  gap:6px;
-  margin-bottom:4px;
+.instructions-box p{
+  font-size:14px;
+  line-height:1.65;
+  color:var(--cream);
+  margin:0 0 10px;
 }
-.axis-title{
-  font-family:'Libre Baskerville',serif;
-  font-size:22px;
-  font-weight:700;
+.instructions-box p:last-child{margin-bottom:0;}
+.instructions-box strong{color:var(--gold);}
+
+.btn-primary{
+  margin:30px auto 0;
+  display:block;
+  padding:14px 32px;
+  background:var(--wine);
+  color:var(--cream);
+  border:none;
+  border-radius:8px;
+  font-family:'Montserrat',sans-serif;
+  font-weight:600;
+  font-size:14px;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  cursor:pointer;
+}
+.btn-primary:hover{opacity:0.9;}
+
+/* ---------- Barra de progresso ---------- */
+.progress-wrap{margin-bottom:40px;}
+.progress-label{
+  font-size:12px;
+  color:var(--lilac);
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  margin-bottom:8px;
+}
+.progress-track{
+  height:4px;
+  border-radius:2px;
+  background:rgba(255,255,255,0.12);
+  overflow:hidden;
+}
+.progress-fill{
+  height:100%;
+  background:linear-gradient(90deg, var(--gold), var(--wine));
+  border-radius:2px;
+  transition:width .25s ease;
+  width:0%;
 }
 
-.question{
-  margin-top:34px;
+/* ---------- Perguntas (uma por vez) ---------- */
+.question{display:none;}
+.question.active{display:block; animation:fadeIn .25s ease;}
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(6px);}
+  to{opacity:1; transform:translateY(0);}
 }
 .question p{
-  font-size:15px;
-  line-height:1.55;
-  margin:0 0 18px;
+  font-size:17px;
+  line-height:1.6;
+  margin:0 0 30px;
   color:var(--cream);
-  text-align:justify;
+  text-align:left;
+}
+.question[data-placeholder="true"] p{
+  color:var(--gold);
+  font-style:italic;
+  border-left:2px solid var(--gold);
+  padding-left:14px;
 }
 
-/* ---------- Slider (estilo igual à barra de resultado) ---------- */
+/* ---------- Slider ---------- */
 .pretty-slider{
   position:relative;
-  padding:6px 0 34px;
+  padding:6px 0 56px;
   touch-action:none;
 }
 .pretty-slider .track{
@@ -94,27 +163,34 @@ h1{
   transform:translate(-50%,-50%);
   pointer-events:none;
 }
+
 .pretty-slider .end-label{
   position:absolute;
-  top:20px;
+  top:24px;
   font-size:10px;
   text-transform:uppercase;
   letter-spacing:0.05em;
   color:var(--lilac);
   white-space:nowrap;
+  display:inline-flex;
+  gap:4px;
 }
 .pretty-slider .end-label.neg{left:0;}
-.pretty-slider .end-label.pos{right:0;}
-.pretty-slider .neutral-label{
-  position:absolute;
-  top:20px;
-  left:50%;
-  transform:translateX(-50%);
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:0.05em;
-  color:var(--lilac);
-  white-space:nowrap;
+.pretty-slider .end-label.pos{right:0; text-align:right;}
+
+/* Em telas estreitas, quebra "Discordo totalmente" / "Concordo totalmente"
+   em duas linhas (uma palavra por linha), sem reduzir a fonte,
+   e abre mais espaço vertical pro rótulo não colidir com o thumb. */
+@media (max-width:480px){
+  .pretty-slider{padding-bottom:68px;}
+  .pretty-slider .end-label{
+    flex-direction:column;
+    gap:0;
+    line-height:1.35;
+    white-space:normal;
+  }
+  .pretty-slider .end-label.pos{align-items:flex-end;}
+  .pretty-slider .end-label.neg{align-items:flex-start;}
 }
 
 .bow-thumb{
@@ -135,230 +211,447 @@ h1{
 }
 .bow-thumb:active{cursor:grabbing; transform:scale(1.08);}
 
-.pretty-slider .end-label{
-  position:absolute;
-  top:24px;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:0.05em;
-  color:var(--lilac);
-  white-space:nowrap;
-}
-.pretty-slider .end-label.neg{left:0;}
-.pretty-slider .end-label.pos{right:0;}
-
-.divider{
-  padding:10px 0;
-}
-
-.compass{
-  position:sticky;
-  top:20px;
-  margin-top:44px;
-  padding:28px 24px;
-  background:var(--panel);
-  border-radius:14px;
-  border:1px solid var(--line);
-}
-.compass-title{
-  font-family:'Libre Baskerville',serif;
-  font-size:19px;
-  margin:0 0 22px;
-}
-.gauge{margin-bottom:22px;}
-.gauge-labels{
+/* ---------- Navegação (Anterior / Próxima / Ver resultado) ---------- */
+.nav-buttons{
   display:flex;
   justify-content:space-between;
-  font-size:11px;
+  align-items:center;
+  margin-top:10px;
+}
+.btn-nav{
+  padding:12px 26px;
+  border-radius:8px;
+  font-family:'Montserrat',sans-serif;
+  font-weight:600;
+  font-size:13px;
   text-transform:uppercase;
-  letter-spacing:0.06em;
+  letter-spacing:0.05em;
+  cursor:pointer;
+  border:1px solid var(--line);
+  background:transparent;
+  color:var(--cream);
+}
+.btn-nav.next{
+  background:var(--wine);
+  color:var(--cream);
+  border:none;
+}
+.btn-nav.prev{visibility:hidden;}
+.btn-nav.prev.visible{visibility:visible;}
+
+/* ---------- Resultado ---------- */
+.result-header{text-align:center; margin-bottom:8px;}
+.result-eyebrow{
+  font-size:11px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
   color:var(--lilac);
   margin-bottom:6px;
-}
-.gauge-track{
-  position:relative;
-  height:8px;
-  background:linear-gradient(90deg, var(--gold), var(--wine));
-  border-radius:4px;
-}
-.gauge-marker{
-  position:absolute;
-  top:-5px;
-  width:18px;
-  height:18px;
-  background:var(--cream);
-  border-radius:50%;
-  border:2px solid var(--ink);
-  transform:translateX(-50%);
-  left:50%;
-  transition:left .3s ease;
-  box-shadow:0 0 0 1px var(--line);
-}
-.gauge-score{
-  text-align:right;
-  font-size:12px;
-  color:var(--lilac);
-  margin-top:4px;
-}
-
-.result{
-  margin-top:26px;
-  padding-top:22px;
-  border-top:1px solid var(--line);
-}
-.result-label{
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:0.1em;
-  color:var(--lilac);
-  margin-bottom:8px;
 }
 .result-title{
   font-family:'Playfair Display',serif;
   font-weight:700;
-  font-size:24px;
+  font-size:clamp(26px,4.5vw,34px);
   color:var(--gold);
-  line-height:1.3;
+  line-height:1.25;
+  margin:0;
+}
+.result-combo{
+  margin-top:10px;
+  font-size:14px;
+  color:var(--lilac);
+  display:none;
+}
+.result-combo.visible{display:block;}
+
+.result-desc{
+  font-size:15px;
+  line-height:1.75;
+  color:var(--cream);
+  text-align:justify;
+  margin:22px 0 40px;
+}
+.result-desc[data-placeholder="true"]{
+  color:var(--gold);
+  font-style:italic;
+  border-left:2px solid var(--gold);
+  padding-left:14px;
+  text-align:left;
+}
+
+.radar-panel{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:24px;
+  margin-bottom:28px;
+}
+.radar-panel-title{
+  text-align:center;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:var(--gold);
+  margin-bottom:14px;
+}
+#radarSvg{display:block; margin:0 auto; max-width:340px; width:100%; height:auto; overflow:visible;}
+#radarSvg text{
+  font-family:'Montserrat',sans-serif;
+  font-size:10px;
+  fill:var(--cream);
+}
+#radarSvg .grid-ring{fill:none; stroke:rgba(255,255,255,0.14); stroke-dasharray:2 3;}
+#radarSvg .grid-axis{stroke:rgba(255,255,255,0.14);}
+#radarSvg .data-shape{
+  fill:rgba(184,0,0,0.35);
+  stroke:var(--gold);
+  stroke-width:2;
+}
+#radarSvg .data-dot{fill:var(--gold); stroke:var(--ink); stroke-width:1.5;}
+
+.gauges-panel{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:24px;
+}
+.gauges-panel-title{
+  text-align:center;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:var(--gold);
+  margin-bottom:18px;
+}
+.gauge-row{margin-bottom:20px;}
+.gauge-row:last-child{margin-bottom:0;}
+.gauge-labels{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  font-size:12px;
+  margin-bottom:8px;
+}
+.gauge-labels .pole{color:var(--lilac); transition:color .2s ease;}
+.gauge-labels .pole strong{font-size:13px; font-weight:600; color:var(--lilac);}
+.gauge-labels .pole.dominant{color:var(--cream);}
+.gauge-labels .pole.dominant strong{color:var(--gold); font-size:16px;}
+.gauge-labels .right-pole{text-align:right;}
+.gauge-track{
+  position:relative;
+  height:8px;
+  border-radius:4px;
+  background:rgba(255,255,255,0.12);
+  overflow:hidden;
+}
+.gauge-fill{
+  position:absolute;
+  top:0; height:100%;
+  border-radius:4px;
+}
+.gauge-fill.from-left{
+  left:0;
+  background:linear-gradient(90deg, var(--wine), var(--gold));
+}
+.gauge-fill.from-right{
+  right:0;
+  background:linear-gradient(90deg, var(--gold), var(--wine));
+}
+
+.btn-secondary{
+  display:block;
+  margin:32px auto 0;
+  padding:12px 28px;
+  background:transparent;
+  border:1px solid var(--gold);
+  color:var(--gold);
+  border-radius:8px;
+  font-family:'Montserrat',sans-serif;
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  cursor:pointer;
 }
 
 footer{
-  margin-top:50px;
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:20;
+  background:var(--ink);
+  border-top:1px solid var(--line);
+  padding:14px 20px;
+  margin:0;
   font-size:12px;
   color:var(--lilac);
   text-align:center;
-}
-
-.credit{
-  position:fixed;
-  right:10px;
-  bottom:8px;
-  font-size:9px;
-  color:var(--lilac);
-  opacity:0.5;
-  letter-spacing:0.02em;
-  pointer-events:none;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
 }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>QUE TIPO DE QUEAN É VOCÊ?</h1>
-  <p class="subtitle">A forma como cada cuckquean vive o fetiche pode ser um pouco diferente e pode também mudar com o tempo.</p>
-  <p class="subtitle">Criamos um teste simplificado que avalia três características gerais: como é a sua atitude ao lidar com o fetiche, qual é o foco do seu prazer e como lida com a humilhação erótica. A combinação desses elementos revela o seu perfil atual.</p>
-  <p class="subtitle">Faça o teste e descubra qual é o seu!</p>
 
-  <div class="divider" aria-hidden="true"></div>
+  <!-- ============ TELA 1: INTRODUÇÃO ============ -->
+  <section class="screen active" id="screen-intro">
+    <div class="logo-placeholder" aria-hidden="true">
+      <svg viewBox="0 0 362.364881 275.352104" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(-44.000000,339.000000) scale(0.100000,-0.100000)">
+          <path d="M1325 3373 c43 -101 55 -152 55 -243 0 -103 -19 -179 -62 -260 -57
+-104 -100 -182 -125 -227 -30 -51 -79 -151 -109 -218 -10 -22 -19 -42 -20 -43
+-4 -5 -66 39 -91 65 -27 28 -77 101 -86 127 -7 18 23 86 66 149 35 51 12 50
+-42 -2 -29 -28 -56 -49 -61 -46 -14 9 -21 146 -11 205 14 77 31 152 41 175 4
+11 23 52 41 90 46 99 49 105 43 105 -9 0 -124 -113 -124 -122 0 -4 -13 -27
+-30 -50 -16 -22 -30 -46 -30 -52 0 -6 -7 -24 -15 -40 -39 -74 -48 -219 -22
+-355 l16 -83 -41 -82 c-58 -115 -56 -110 -63 -152 -18 -112 -21 -114 -49 -51
+-10 23 -25 55 -32 71 -43 91 -58 179 -59 343 0 155 -6 189 -20 120 -4 -17 -11
+-36 -15 -42 -15 -19 -40 -182 -40 -261 0 -103 49 -334 71 -334 4 0 10 -13 14
+-30 4 -17 10 -30 14 -30 3 0 12 -12 19 -27 52 -116 239 -303 419 -419 54 -34
+101 -67 105 -71 4 -4 34 -39 66 -78 103 -123 225 -219 396 -312 55 -30 124
+-70 152 -89 67 -45 194 -181 194 -209 0 -5 8 -23 17 -40 12 -22 17 -55 17
+-118 0 -48 3 -87 7 -87 19 0 141 150 171 209 29 58 33 75 33 146 0 79 -1 83
+-49 165 -66 115 -108 177 -150 225 -38 42 -71 104 -104 196 -44 121 -110 226
+-190 302 -84 79 -182 121 -128 55 49 -61 83 -113 91 -138 4 -14 11 -27 16 -30
+14 -9 28 -133 20 -180 -4 -25 -17 -61 -28 -80 -19 -34 -22 -35 -75 -34 -123 2
+-224 94 -301 274 -38 88 -61 247 -48 331 13 85 30 160 40 179 5 9 12 31 16 49
+4 18 16 54 27 80 10 25 24 57 30 71 5 14 16 39 23 55 8 17 23 53 35 80 12 28
+27 64 34 80 61 140 81 231 81 370 0 120 -2 134 -26 182 -15 28 -46 74 -69 102
+-43 51 -69 67 -55 34z m-441 -1062 c27 -42 64 -95 83 -118 32 -39 34 -45 24
+-74 -6 -18 -11 -90 -11 -161 l0 -129 -37 28 c-21 15 -68 57 -105 93 l-68 67 1
+104 c0 104 7 161 30 254 10 44 13 48 23 31 6 -10 33 -53 60 -95z"/>
+          <path d="M3131 3343 c-23 -27 -53 -73 -68 -103 -26 -52 -28 -63 -28 -185 0
+-127 7 -167 47 -280 11 -31 82 -204 98 -240 5 -11 18 -42 30 -70 11 -27 24
+-57 29 -65 5 -9 12 -31 16 -50 4 -19 11 -41 16 -50 17 -34 38 -120 48 -198 23
+-183 -37 -388 -150 -515 -59 -67 -126 -101 -198 -102 -54 0 -54 0 -79 45 -22
+38 -26 57 -25 125 0 73 4 88 37 155 21 41 51 90 67 110 54 65 53 61 22 54 -44
+-10 -63 -23 -121 -78 -86 -81 -155 -195 -211 -349 -24 -65 -58 -122 -113 -185
+-41 -49 -137 -205 -162 -266 -45 -109 4 -254 133 -388 l68 -72 -1 91 c-1 49 4
+101 10 114 29 62 36 76 49 100 12 21 114 122 156 154 19 15 124 76 179 104
+131 69 277 185 380 303 55 63 102 105 172 151 119 79 176 125 253 203 139 141
+226 290 267 459 24 101 9 399 -22 440 -4 6 -11 25 -15 43 -3 17 -11 32 -17 32
+-7 0 -8 -11 -2 -32 20 -77 2 -292 -32 -388 -24 -67 -67 -167 -82 -190 -7 -10
+-22 26 -22 53 0 38 -44 159 -81 225 l-31 55 18 71 c27 110 23 234 -11 331 -24
+72 -50 124 -80 164 -31 41 -114 125 -119 120 -4 -3 7 -32 24 -65 16 -32 30
+-66 30 -74 0 -9 4 -20 9 -25 17 -20 43 -121 50 -199 8 -82 2 -201 -11 -201 -3
+0 -26 18 -50 41 -23 22 -51 43 -61 47 -16 6 -16 5 -2 -21 20 -36 39 -66 45
+-72 3 -3 14 -22 24 -43 20 -38 20 -39 0 -75 -10 -20 -29 -48 -41 -62 -13 -14
+-23 -28 -23 -32 0 -9 -90 -78 -101 -78 -5 0 -9 4 -9 10 0 19 -153 322 -179
+354 -21 27 -111 214 -111 232 0 11 -5 25 -11 31 -15 15 -16 227 -2 245 6 7 13
+30 17 50 4 20 10 38 15 40 13 5 24 48 12 48 -5 0 -28 -21 -50 -47z m601 -1088
+c5 -38 8 -109 6 -157 l-3 -87 -60 -61 c-33 -34 -79 -74 -102 -90 l-43 -29 0
+139 c0 82 -4 141 -10 145 -13 8 -13 32 0 48 54 65 140 190 140 205 0 4 8 18
+17 32 l17 24 14 -49 c8 -28 18 -81 24 -120z"/>
+        </g>
+      </svg>
+    </div>
+    <h1>QUE TIPO<br class="title-break"> DE <em>QUEAN</em><br class="title-break"> É VOCÊ?</h1>
+    <p class="subtitle">A forma como cada cuckquean vive o fetiche pode ser um pouco diferente e pode também mudar com o tempo.</p>
+    <p class="subtitle">Criamos um teste simplificado que avalia três características gerais: como é a sua atitude ao lidar com o fetiche, qual é o foco do seu prazer e como lida com a humilhação erótica. A combinação desses elementos revela o seu perfil atual.</p>
+    <p class="subtitle">Faça o teste e descubra qual é o seu!</p>
 
-  <!-- EIXO 1 -->
-  <div class="axis-block" data-axis="1">
-    <div class="axis-header">
-      <div class="axis-title">Atitude</div>
-    </div>
-
-    <div class="question" data-weight="1" data-pole-neg="Submissa" data-pole-pos="Controladora">
-      <p>Se meu parceiro quiser sair com outras mulheres, sou eu quem tem que decidir quando, como, onde e com quem. Eu estabeleço as regras, de preferência eu mesma falo com a moça. Prefiro manter tudo sob meu controle.</p>
-      <div class="pretty-slider"></div>
-    </div>
-    <div class="question" data-weight="-1" data-pole-neg="Submissa" data-pole-pos="Controladora">
-      <p>Eu aceito que meu parceiro saia com outra mulher sozinho. Não preciso estar junto com ele.</p>
-      <div class="pretty-slider"></div>
-    </div>
-    <div class="question" data-weight="-1" data-pole-neg="Submissa" data-pole-pos="Controladora">
-      <p>Eu aceitaria tranquilamente ficar apenas observando meu parceiro transando com outra em vez de participar do sexo.</p>
-      <div class="pretty-slider"></div>
-    </div>
-    <div class="question" data-weight="-1" data-pole-neg="Submissa" data-pole-pos="Controladora">
-      <p>Eu confio plenamente no meu parceiro e não acho que me cabe determinar regras sobre o que ele pode ou não fazer com outras mulheres.</p>
-      <div class="pretty-slider"></div>
-    </div>
-  </div>
-
-  <div class="divider" aria-hidden="true"></div>
-
-  <!-- EIXO 2 -->
-  <div class="axis-block" data-axis="2">
-    <div class="axis-header">
-      <div class="axis-title">Foco</div>
-    </div>
-
-    <div class="question" data-weight="-1" data-pole-neg="Romântica" data-pole-pos="Sexual">
-      <p>Eu me sinto genuinamente feliz por ver o meu parceiro apaixonado por outra mulher e criando um vínculo profundo com ela.</p>
-      <div class="pretty-slider"></div>
-    </div>
-    <div class="question" data-weight="-1" data-pole-neg="Romântica" data-pole-pos="Sexual">
-      <p>Acho excitante ver meu parceiro trocando carícias com outra mulher, como beijos, carinho no rosto, abraços e troca de olhares.</p>
-      <div class="pretty-slider"></div>
-    </div>
-    <div class="question" data-weight="1" data-pole-neg="Romântica" data-pole-pos="Sexual">
-      <p>Sinto tesão puramente na parte sexual. Prefiro que não haja carinho envolvido — só o sexo em si, sem vínculo com a outra pessoa.</p>
-      <div class="pretty-slider"></div>
-    </div>
-    <div class="question" data-weight="-1" data-pole-neg="Romântica" data-pole-pos="Sexual">
-      <p>Gosto da ideia de ter um relacionamento sério a três. Eu aceitaria constituir família de um marido com duas esposas em vez de apenas ter uma fixa só para diversão.</p>
-      <div class="pretty-slider"></div>
-    </div>
-  </div>
-
-  <div class="divider" aria-hidden="true"></div>
-
-  <!-- EIXO 3 -->
-  <div class="axis-block" data-axis="3">
-    <div class="axis-header">
-      <div class="axis-title">Ego</div>
+    <div class="instructions-box">
+      <p><strong>Como responder:</strong> cada afirmação vem com uma barrinha deslizante.</p>
+      <p>Arraste a bolinha mais para a <strong>esquerda</strong> quanto menos você se identificar com a frase, e mais para a <strong>direita</strong> quanto mais ela combinar com você. Não existe resposta certa — só a que reflete o que você sente hoje.</p>
     </div>
 
-    <div class="question" data-weight="1" data-pole-neg="Sem humilhação" data-pole-pos="Com humilhação">
-      <p>A ideia de ser provocada durante o ato me dá muito tesão.</p>
-      <div class="pretty-slider"></div>
-    </div>
-    <div class="question" data-weight="1" data-pole-neg="Sem humilhação" data-pole-pos="Com humilhação">
-      <p>Acho excitante quando ele me chama de "minha corna".</p>
-      <div class="pretty-slider"></div>
-    </div>
-    <div class="question" data-weight="1" data-pole-neg="Sem humilhação" data-pole-pos="Com humilhação">
-      <p>Fico louca só de pensar nele gozando em outra mulher e me mandando limpar com a língua.</p>
-      <div class="pretty-slider"></div>
-    </div>
-    <div class="question" data-weight="1" data-pole-neg="Sem humilhação" data-pole-pos="Com humilhação">
-      <p>Eu não me importaria se soubessem por aí que ele sai com outras. Não me sentiria mal, pelo contrário: eu acharia bem divertido ver as pessoas me julgando.</p>
-      <div class="pretty-slider"></div>
-    </div>
-  </div>
+    <button class="btn-primary" id="btnStart">Iniciar Teste</button>
+  </section>
 
-  <div class="compass">
-    <div class="compass-title">Seu resultado</div>
-
-    <div class="gauge" data-axis-gauge="1">
-      <div class="gauge-labels"><span>Controladora</span><span>Submissa</span></div>
-      <div class="gauge-track"><div class="gauge-marker"></div></div>
+  <!-- ============ TELA 2: TESTE (uma pergunta por vez) ============ -->
+  <section class="screen" id="screen-test">
+    <div class="progress-wrap">
+      <div class="progress-label" id="progressLabel">Pergunta 1 de 15</div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
     </div>
 
-    <div class="gauge" data-axis-gauge="2">
-      <div class="gauge-labels"><span>Sexual</span><span>Romântica</span></div>
-      <div class="gauge-track"><div class="gauge-marker"></div></div>
+    <div id="questionsContainer"><!-- preenchido via JS --></div>
+
+    <div class="nav-buttons">
+      <button class="btn-nav prev" id="btnPrev">Anterior</button>
+      <button class="btn-nav next" id="btnNext">Próxima</button>
+    </div>
+  </section>
+
+  <!-- ============ TELA 3: RESULTADO ============ -->
+  <section class="screen" id="screen-result">
+    <div class="result-header">
+      <div class="result-eyebrow" id="resultEyebrow">Seu perfil</div>
+      <h2 class="result-title" id="resultTitle">—</h2>
+      <div class="result-combo" id="resultCombo"></div>
     </div>
 
-    <div class="gauge" data-axis-gauge="3">
-      <div class="gauge-labels"><span>Sem humilhação</span><span>Com humilhação</span></div>
-      <div class="gauge-track"><div class="gauge-marker"></div></div>
+    <div class="radar-panel">
+      <div class="radar-panel-title">Mapa do Perfil</div>
+      <svg id="radarSvg" viewBox="-30 0 375 300" xmlns="http://www.w3.org/2000/svg"></svg>
     </div>
 
-    <div class="result">
-      <div class="result-label">Perfil combinado</div>
-      <div class="result-title" id="resultTitle">Responda as afirmações acima</div>
+    <div class="gauges-panel">
+      <div class="gauges-panel-title">Intensidade por Eixo</div>
+      <div id="gaugesContainer"><!-- preenchido via JS --></div>
     </div>
-  </div>
 
-  <footer></footer>
+    <p class="result-desc" id="resultDesc">—</p>
+
+    <button class="btn-secondary" id="btnRestart">Refazer o teste</button>
+  </section>
+
+  <footer>Sasha Quean</footer>
 </div>
 
-<div class="credit">site por jakehimura</div>
-
 <script>
-const MIN = -3, MAX = 3;
+/* =========================================================================
+   DADOS DO TESTE
+   -------------------------------------------------------------------------
+   Cada eixo tem um polo fixo à ESQUERDA e um polo fixo à DIREITA.
+   Cada pergunta tem direction: 'left' (soma direto) ou 'right' (soma invertido: 3 - valor).
+   Isso garante que a soma final das 5 perguntas sempre aponte pro polo ESQUERDO
+   do eixo, de 0 (nada) a 15 (totalmente) — sem cancelamento entre perguntas.
+   ========================================================================= */
+
+const AXES = [
+  {
+    id: 'atitude',
+    leftPole: 'Controladora',
+    rightPole: 'Submissa',
+    questions: [
+      {
+        text: 'Eu aceito que meu parceiro saia com outra mulher sozinho. Não preciso estar junto com ele.',
+        direction: 'right'
+      },
+      {
+        text: 'Eu confio plenamente no meu parceiro e não acho que me cabe determinar regras sobre o que ele pode ou não fazer com outras mulheres.',
+        direction: 'right'
+      },
+      {
+        text: 'Eu me sinto tranquila em não interferir no que acontece entre eles durante o ato. Aceito ser colocada de lado.',
+        direction: 'right'
+      },
+      {
+        text: 'Se alguma mulher quiser sair com ele, ou se ele quiser sair com alguma mulher, ela tem que falar comigo — nunca com ele. Somente eu posso falar com outras mulheres.',
+        direction: 'left'
+      },
+      {
+        text: 'Sou eu quem estabelece as regras de como, quando e onde o encontro vai acontecer.',
+        direction: 'left'
+      }
+    ]
+  },
+  {
+    id: 'foco',
+    leftPole: 'Sexual',
+    rightPole: 'Romântica',
+    questions: [
+      {
+        text: 'Sinto tesão puramente na parte sexual. Prefiro que não haja carinho envolvido — só o sexo em si, sem vínculo com a outra pessoa.',
+        direction: 'left'
+      },
+      {
+        text: 'Fico incomodada, ou até perco o tesão, se sinto que existe carinho ou conexão emocional real entre eles — prefiro que fique restrito ao físico.',
+        direction: 'left'
+      },
+      {
+        text: 'Se ele começasse a repetir sempre a mesma mulher e criar intimidade com ela, isso me incomodaria — prefiro que sejam encontros pontuais, sem continuidade.',
+        direction: 'left'
+      },
+      {
+        text: 'Eu me sinto genuinamente feliz por ver o meu parceiro apaixonado por outra mulher e criando um vínculo profundo com ela.',
+        direction: 'right'
+      },
+      {
+        text: 'Gosto da ideia de ter um relacionamento sério a três. Eu aceitaria constituir família de um marido com duas esposas em vez de apenas ter uma fixa só para diversão.',
+        direction: 'right'
+      }
+    ]
+  },
+  {
+    id: 'ego',
+    leftPole: 'Sem humilhação',
+    rightPole: 'Com humilhação',
+    questions: [
+      {
+        text: 'A ideia de ser provocada durante o ato me dá muito tesão.',
+        direction: 'right'
+      },
+      {
+        text: 'Acho excitante quando ele me chama de "minha corna".',
+        direction: 'right'
+      },
+      {
+        text: 'Fico louca só de pensar nele gozando em outra mulher e me mandando limpar com a língua.',
+        direction: 'right'
+      },
+      {
+        text: 'O que me excita é só o fato de ele estar com outra mulher, e não a provocação, os apelidos ou os comentários humilhantes.',
+        direction: 'left'
+      },
+      {
+        text: 'Se ela tentasse me humilhar dizendo que é mais gostosa do que eu, ou fizesse algum tipo de comparação assim, acabaria completamente o clima pra mim.',
+        direction: 'left'
+      }
+    ]
+  }
+];
+
+/* =========================================================================
+   PERFIS (8 combinações) — apelido e descrição AINDA PRECISAM SER ESCRITOS.
+   Chave = slug(Atitude)-slug(Foco)-slug(Ego), usando sempre o polo dominante.
+   ========================================================================= */
+
+function slug(s){
+  return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,'');
+}
+
+/* Os 8 perfis já têm apelido e descrição definitivos (revisados com a Sasha).
+   Caso algum precise ser reescrito no futuro, edite o texto direto abaixo —
+   não é necessário mexer em mais nada no código. */
+const PROFILES = {
+  'Controladora-Sexual-Semhumilhacao': {
+    apelido: 'A Quean Liberal',
+    descricao: 'Você fica excitada com a ideia do seu parceiro estar na cama com outra mulher. A parte sexual é o foco do seu prazer. Mas você não gosta de se sentir por baixo da situação, ou de ser humilhada — pelo contrário. Você também gosta de estar no comando, preferindo ser quem fala diretamente com a outra mulher e decide como, quando e onde tudo acontece. Vale uma reflexão: esse controle vem do prazer genuíno em conduzir a situação, ou de uma dificuldade em confiar que ela funcionaria sem sua supervisão direta?'
+  },
+  'Controladora-Sexual-Comhumilhacao': {
+    apelido: 'A Quean Kinky',
+    descricao: 'Você fica excitada com a ideia do seu parceiro estar na cama com outra mulher. Mas não é só a parte sexual que te atrai: você também gosta de receber provocações e viver cenas de humilhação erótica — sempre dentro do consentimento, sem que isso tenha qualquer relação com desrespeito. Ao mesmo tempo, você quer estar no comando — é você quem estabelece as regras do encontro, e ninguém fala com a outra mulher a não ser você. Vale se perguntar: esse controle sobre a própria experiência nasce da confiança em saber exatamente o que você quer sentir, ou de uma dificuldade em se entregar sem comandar cada detalhe?'
+  },
+  'Controladora-Romantica-Semhumilhacao': {
+    apelido: 'A Quean Zelosa',
+    descricao: 'Você fica emocionada ao imaginar seu parceiro se envolvendo de verdade com outra mulher, criando um vínculo real com ela. O afeto entre eles é o foco do seu prazer. Mas você não gosta de se sentir por baixo da situação, ou de ser humilhada — pelo contrário. Ainda assim, gosta de acompanhar tudo de perto: quer saber com quem ele está, ser a única com quem essas conversas passam, e manter as rédeas de como tudo se desenrola. Vale uma reflexão: esse acompanhamento de perto vem do desejo genuíno de fazer parte ativa dessa conexão, ou de um receio de que algo aconteça fora do seu alcance?'
+  },
+  'Controladora-Romantica-Comhumilhacao': {
+    apelido: 'A Quean Intensa',
+    descricao: 'Você fica emocionada ao imaginar seu parceiro se envolvendo de verdade com outra mulher. Mas não é só o afeto entre eles que te atrai: você também gosta de receber provocações e viver cenas de humilhação erótica — sempre dentro do consentimento, sem que isso tenha qualquer relação com desrespeito. Além disso, você gosta de manter o comando: estabelece os termos do encontro e guarda a palavra final sobre como tudo acontece. Vale refletir sobre essa parte específica: o controle está ali porque comandar a cena é, em si, uma fonte de prazer para você — ou porque, sem ele, a intensidade emocional do resto te deixaria insegura?'
+  },
+  'Submissa-Sexual-Semhumilhacao': {
+    apelido: 'A Quean Clássica',
+    descricao: 'Você fica excitada com a ideia do seu parceiro estar na cama com outra mulher. A parte sexual é o foco do seu prazer. Mas você não gosta de se sentir por baixo da situação, ou de ser humilhada — pelo contrário. E você também não sente necessidade de dirigir o encontro — aceita bem que ele saia sozinho e decida os detalhes, confiando que tudo vai bem sem precisar da sua aprovação a cada passo.'
+  },
+  'Submissa-Sexual-Comhumilhacao': {
+    apelido: 'A Quean Raiz',
+    descricao: 'Você fica excitada com a ideia do seu parceiro estar na cama com outra mulher. Mas não é só a parte sexual que te atrai: você também gosta de receber provocações e viver cenas de humilhação erótica — ouvir "minha corna", sentir esse tom de perto — sempre dentro do consentimento, sem que isso tenha qualquer relação com desrespeito. Você entrega a condução do encontro a ele, sem necessidade de estar no comando — é a combinação mais direta e instintiva do fetiche, sem meio-termo.'
+  },
+  'Submissa-Romantica-Semhumilhacao': {
+    apelido: 'A Quean Compersiva',
+    descricao: 'Você fica emocionada ao imaginar seu parceiro se envolvendo de verdade com outra mulher, sentindo uma alegria genuína nesse vínculo. O afeto entre eles é o foco do seu prazer. Mas você não gosta de se sentir por baixo da situação, ou de ser humilhada — pelo contrário. E você também não sente necessidade de dirigir a situação, entregando a condução do encontro a ele com tranquilidade.'
+  },
+  'Submissa-Romantica-Comhumilhacao': {
+    apelido: 'A Quean Devota',
+    descricao: 'Você fica emocionada ao imaginar seu parceiro se envolvendo de verdade com outra mulher. Mas não é só o afeto entre eles que te atrai: você também gosta de receber provocações e viver cenas de humilhação erótica — sempre dentro do consentimento, sem que isso tenha qualquer relação com desrespeito. Sua entrega também é ampla no comando da situação: você não sente necessidade de dirigir o encontro, confiando inteiramente na condução dele. É uma combinação em que várias camadas do fetiche se reforçam ao mesmo tempo.'
+  }
+};
+
+/* =========================================================================
+   CONSTRUÇÃO DAS PERGUNTAS NA TELA (uma por vez)
+   ========================================================================= */
+
+const MIN = 0, MAX = 3;
+const DEFAULT_VALUE = 2; // não existe ponto médio exato em 0-3; escolha arbitrária até o usuário arrastar
+
+let flatQuestions = []; // lista achatada com referência ao axisIndex e questionIndex
 
 function buildSlider(container){
-  const steps = MAX - MIN; // 6 intervals -> 7 stops
+  const steps = MAX - MIN; // 3 intervalos -> 4 paradas
   let dots = '';
   for(let i=0;i<=steps;i++){
     const t = i/steps;
@@ -369,11 +662,10 @@ function buildSlider(container){
       ${dots}
       <button type="button" class="bow-thumb" aria-label="Arraste para responder"></button>
     </div>
-    <span class="end-label neg">Discordo totalmente</span>
-    <span class="neutral-label">Neutro</span>
-    <span class="end-label pos">Concordo totalmente</span>
+    <span class="end-label neg"><span>Discordo</span><span>totalmente</span></span>
+    <span class="end-label pos"><span>Concordo</span><span>totalmente</span></span>
   `;
-  container.dataset.value = '0';
+  container.dataset.value = String(DEFAULT_VALUE);
 
   const track = container.querySelector('.track');
   const thumb = container.querySelector('.bow-thumb');
@@ -381,10 +673,9 @@ function buildSlider(container){
   function setValue(value, animate){
     value = Math.max(MIN, Math.min(MAX, value));
     container.dataset.value = value;
-    const t = (value - MIN) / (MAX - MIN); // 0..1
+    const t = (value - MIN) / (MAX - MIN);
     thumb.style.transition = animate ? 'left .18s ease' : 'none';
     thumb.style.left = (t * 100) + '%';
-    container.dispatchEvent(new Event('sliderchange', {bubbles:true}));
   }
 
   function valueFromClientX(clientX){
@@ -392,27 +683,21 @@ function buildSlider(container){
     let t = (clientX - rect.left) / rect.width;
     t = Math.max(0, Math.min(1, t));
     const raw = MIN + t * (MAX - MIN);
-    return Math.round(raw); // snap to integer step
+    return Math.round(raw);
   }
 
   let dragging = false;
 
-  function onPointerDown(e){
+  thumb.addEventListener('pointerdown', (e)=>{
     dragging = true;
     thumb.setPointerCapture(e.pointerId);
     setValue(valueFromClientX(e.clientX), false);
-  }
-  function onPointerMove(e){
+  });
+  thumb.addEventListener('pointermove', (e)=>{
     if(!dragging) return;
     setValue(valueFromClientX(e.clientX), false);
-  }
-  function onPointerUp(e){
-    dragging = false;
-  }
-
-  thumb.addEventListener('pointerdown', onPointerDown);
-  thumb.addEventListener('pointermove', onPointerMove);
-  thumb.addEventListener('pointerup', onPointerUp);
+  });
+  thumb.addEventListener('pointerup', ()=>{ dragging = false; });
 
   track.addEventListener('pointerdown', (e)=>{
     if(e.target === thumb) return;
@@ -426,66 +711,252 @@ function buildSlider(container){
   });
   thumb.tabIndex = 0;
 
-  setValue(0, false);
+  setValue(DEFAULT_VALUE, false);
 }
 
-document.querySelectorAll('.pretty-slider').forEach(buildSlider);
+function renderQuestions(){
+  const container = document.getElementById('questionsContainer');
+  container.innerHTML = '';
+  flatQuestions = [];
 
-const POLE_NAMES = {
-  1: {pos:'Controladora', neg:'Submissa'},
-  2: {pos:'Sexual', neg:'Romântica'},
-  3: {pos:'Com humilhação', neg:'Sem humilhação'}
-};
+  AXES.forEach((axis, axisIndex)=>{
+    axis.questions.forEach((q, qIndex)=>{
+      const div = document.createElement('div');
+      div.className = 'question';
+      div.dataset.axisIndex = axisIndex;
+      div.dataset.questionIndex = qIndex;
+      if(q.placeholder) div.dataset.placeholder = 'true';
 
-function clamp(v,min,max){return Math.max(min,Math.min(max,v));}
+      const p = document.createElement('p');
+      p.textContent = q.text;
+      div.appendChild(p);
 
-function computeScores(){
-  const scores = {1:0,2:0,3:0};
-  document.querySelectorAll('.axis-block').forEach(block=>{
-    const axis = block.dataset.axis;
-    const questions = block.querySelectorAll('.question');
-    let sum = 0;
-    questions.forEach(q=>{
-      const weight = parseInt(q.dataset.weight,10);
-      const slider = q.querySelector('.pretty-slider');
-      const val = slider ? parseInt(slider.dataset.value,10) : 0;
-      sum += val * weight;
+      const sliderDiv = document.createElement('div');
+      sliderDiv.className = 'pretty-slider';
+      div.appendChild(sliderDiv);
+
+      container.appendChild(div);
+      buildSlider(sliderDiv);
+
+      flatQuestions.push({ el: div, slider: sliderDiv, axisIndex, qIndex });
     });
-    const avg = sum / questions.length;       // -3 .. +3
-    const scaled = Math.round(avg * (5/3));   // -5 .. +5
-    scores[axis] = clamp(scaled, -5, 5);
   });
-  return scores;
 }
 
-function updateUI(){
-  const scores = computeScores();
+/* =========================================================================
+   NAVEGAÇÃO ENTRE PERGUNTAS
+   ========================================================================= */
 
-  Object.keys(scores).forEach(axis=>{
-    const score = scores[axis];
-    const gauge = document.querySelector(`[data-axis-gauge="${axis}"]`);
-    const marker = gauge.querySelector('.gauge-marker');
-    const pct = (axis === '3')
-      ? ((score + 5) / 10) * 100
-      : 100 - (((score + 5) / 10) * 100);
-    marker.style.left = pct + '%';
+let currentIndex = 0;
+let testStarted = false; // controla se o teste já foi iniciado ao menos uma vez
+
+function showQuestion(idx){
+  flatQuestions.forEach((fq, i)=>{
+    fq.el.classList.toggle('active', i === idx);
   });
 
-  const parts = [];
-  Object.keys(scores).forEach(axis=>{
-    const s = scores[axis];
-    if (s === 0){
-      parts.push('Neutro em ' + (axis==1?'Atitude':axis==2?'Foco':'Ego'));
-    } else {
-      parts.push(s > 0 ? POLE_NAMES[axis].pos : POLE_NAMES[axis].neg);
-    }
-  });
+  const total = flatQuestions.length;
+  document.getElementById('progressLabel').textContent = `Pergunta ${idx+1} de ${total}`;
+  document.getElementById('progressFill').style.width = `${((idx+1)/total)*100}%`;
 
-  document.getElementById('resultTitle').textContent = parts.join(' + ');
+  const prevBtn = document.getElementById('btnPrev');
+  const nextBtn = document.getElementById('btnNext');
+  prevBtn.classList.add('visible');
+  prevBtn.textContent = (idx === 0) ? 'Voltar' : 'Anterior';
+  nextBtn.textContent = (idx === total - 1) ? 'Ver Resultado' : 'Próxima';
 }
 
-document.addEventListener('sliderchange', updateUI);
-updateUI();
+document.getElementById('btnNext').addEventListener('click', ()=>{
+  const total = flatQuestions.length;
+  if(currentIndex < total - 1){
+    currentIndex++;
+    showQuestion(currentIndex);
+  } else {
+    finishTest();
+  }
+});
+
+document.getElementById('btnPrev').addEventListener('click', ()=>{
+  if(currentIndex === 0){
+    // na primeira pergunta, "Voltar" leva de volta às instruções, sem perder o progresso
+    document.getElementById('screen-test').classList.remove('active');
+    document.getElementById('screen-intro').classList.add('active');
+  } else {
+    currentIndex--;
+    showQuestion(currentIndex);
+  }
+});
+
+document.getElementById('btnStart').addEventListener('click', ()=>{
+  document.getElementById('screen-intro').classList.remove('active');
+  document.getElementById('screen-test').classList.add('active');
+  if(!testStarted){
+    currentIndex = 0;
+    testStarted = true;
+  }
+  showQuestion(currentIndex);
+});
+
+document.getElementById('btnRestart').addEventListener('click', ()=>{
+  document.getElementById('screen-result').classList.remove('active');
+  document.getElementById('screen-intro').classList.add('active');
+  currentIndex = 0;
+  testStarted = false;
+  renderQuestions();
+});
+
+/* =========================================================================
+   CÁLCULO DO RESULTADO
+   ========================================================================= */
+
+function computeAxisResult(axis, axisIndex){
+  let sum = 0;
+  axis.questions.forEach((q, qIndex)=>{
+    const fq = flatQuestions.find(f => f.axisIndex === axisIndex && f.qIndex === qIndex);
+    const val = parseInt(fq.slider.dataset.value, 10);
+    sum += (q.direction === 'left') ? val : (MAX - val);
+  });
+  const leftPercent = Math.round((sum / (axis.questions.length * MAX)) * 100);
+  const rightPercent = 100 - leftPercent;
+  const dominant = leftPercent > 50 ? axis.leftPole : axis.rightPole;
+  return { leftPercent, rightPercent, dominant };
+}
+
+function finishTest(){
+  const results = AXES.map((axis, i) => computeAxisResult(axis, i));
+
+  const key = results.map(r => slug(r.dominant)).join('-');
+  const profile = PROFILES[key];
+  const isPending = !profile || profile.pending;
+
+  const eyebrowEl = document.getElementById('resultEyebrow');
+  const titleEl = document.getElementById('resultTitle');
+  const comboEl = document.getElementById('resultCombo');
+  const descEl = document.getElementById('resultDesc');
+
+  if(isPending){
+    eyebrowEl.textContent = '';
+    titleEl.textContent = 'Seu Perfil';
+    comboEl.textContent = results.map(r => r.dominant).join(' + ');
+    comboEl.classList.add('visible');
+    descEl.textContent = '';
+    descEl.removeAttribute('data-placeholder');
+  } else {
+    eyebrowEl.textContent = 'Seu perfil';
+    titleEl.textContent = profile.apelido;
+    comboEl.textContent = '';
+    comboEl.classList.remove('visible');
+    descEl.textContent = profile.descricao;
+    descEl.removeAttribute('data-placeholder');
+  }
+
+  renderGauges(results);
+  renderRadar(results);
+
+  document.getElementById('screen-test').classList.remove('active');
+  document.getElementById('screen-result').classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function renderGauges(results){
+  const container = document.getElementById('gaugesContainer');
+  container.innerHTML = '';
+
+  AXES.forEach((axis, i)=>{
+    const r = results[i];
+    const leftDominant = r.leftPercent > r.rightPercent;
+
+    const row = document.createElement('div');
+    row.className = 'gauge-row';
+    row.innerHTML = `
+      <div class="gauge-labels">
+        <span class="pole left-pole ${leftDominant ? 'dominant' : ''}"><strong>${r.leftPercent}%</strong> ${axis.leftPole}</span>
+        <span class="pole right-pole ${!leftDominant ? 'dominant' : ''}">${axis.rightPole} <strong>${r.rightPercent}%</strong></span>
+      </div>
+      <div class="gauge-track">
+        <div class="gauge-fill ${leftDominant ? 'from-left' : 'from-right'}" style="width:${leftDominant ? r.leftPercent : r.rightPercent}%"></div>
+      </div>
+    `;
+    container.appendChild(row);
+  });
+}
+
+/* =========================================================================
+   RADAR (Mapa do Perfil) — 6 vértices:
+   índice 0 (topo) = Atitude-esquerda (Controladora)
+   índice 1 (sup. dir.) = Foco-esquerda (Sexual)
+   índice 2 (inf. dir.) = Ego-esquerda (Sem humilhação)
+   índice 3 (base) = Ego-direita (Com humilhação)
+   índice 4 (inf. esq.) = Foco-direita (Romântica)
+   índice 5 (sup. esq.) = Atitude-direita (Submissa)
+   ========================================================================= */
+
+function renderRadar(results){
+  const [atitude, foco, ego] = results;
+
+  const values = [
+    atitude.leftPercent,   // 0 topo
+    foco.leftPercent,      // 1
+    ego.leftPercent,       // 2
+    ego.rightPercent,      // 3 base
+    foco.rightPercent,     // 4
+    atitude.rightPercent   // 5
+  ];
+  const labels = [
+    AXES[0].leftPole, AXES[1].leftPole, AXES[2].leftPole,
+    AXES[2].rightPole, AXES[1].rightPole, AXES[0].rightPole
+  ];
+
+  const cx = 150, cy = 150, maxR = 80;
+
+  function point(index, radius){
+    const angle = (index * 60) * Math.PI / 180; // 0° = topo, sentido horário
+    return {
+      x: cx + radius * Math.sin(angle),
+      y: cy - radius * Math.cos(angle)
+    };
+  }
+
+  let svg = '';
+
+  // grade (anéis de 25/50/75/100%)
+  [25, 50, 75, 100].forEach(pct=>{
+    const r = (pct/100) * maxR;
+    const pts = [0,1,2,3,4,5].map(i => point(i, r)).map(p => `${p.x},${p.y}`).join(' ');
+    svg += `<polygon class="grid-ring" points="${pts}" />`;
+  });
+
+  // eixos (linhas do centro até cada vértice)
+  [0,1,2,3,4,5].forEach(i=>{
+    const p = point(i, maxR);
+    svg += `<line class="grid-axis" x1="${cx}" y1="${cy}" x2="${p.x}" y2="${p.y}" />`;
+  });
+
+  // labels
+  [0,1,2,3,4,5].forEach(i=>{
+    const p = point(i, maxR + 34);
+    let anchor = 'middle';
+    if(i === 1 || i === 2) anchor = 'start';
+    if(i === 4 || i === 5) anchor = 'end';
+    svg += `<text x="${p.x}" y="${p.y}" text-anchor="${anchor}" dominant-baseline="middle">${labels[i]}</text>`;
+  });
+
+  // forma de dados
+  const dataPts = [0,1,2,3,4,5].map(i => point(i, (values[i]/100)*maxR));
+  const dataPolyStr = dataPts.map(p => `${p.x},${p.y}`).join(' ');
+  svg += `<polygon class="data-shape" points="${dataPolyStr}" />`;
+  dataPts.forEach(p=>{
+    svg += `<circle class="data-dot" cx="${p.x}" cy="${p.y}" r="4" />`;
+  });
+
+  document.getElementById('radarSvg').innerHTML = svg;
+}
+
+/* =========================================================================
+   INICIALIZAÇÃO
+   ========================================================================= */
+
+renderQuestions();
 </script>
 </body>
 </html>
